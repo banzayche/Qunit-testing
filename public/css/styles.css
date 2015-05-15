@@ -163,6 +163,7 @@ thead .go-sort:hover{
 }
 #control-region{
 	padding: 10px;
+	min-height: 50px;
 }
 .choice-category{
 	margin: 2px 20px;
