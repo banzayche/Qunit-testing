@@ -13,11 +13,31 @@ var modelCollection = myLibrarryApp.module('modelCollection', function(modelColl
 			'id' : undefined
 		},
 
+		accordance: function(filterVal){
+			if( this.get('genre') === filterVal ){
+				return true;
+			} else if( filterVal === 'all' ){
+				return true;
+			} else{
+				return false;
+			}
+		},
+
 		urlRoot: '/api/books',
 	});
 
 	modelCollection.CollectionBook = Backbone.Collection.extend({
 		model: modelCollection.Book,
+
+		sortAttribute: 'title',
+		goSort: function( sortAttribute ){
+			this.sortAttribute = sortAttribute;
+			this.sort();
+		},
+		comparator: function( model ){
+			return model.get( this.sortAttribute );
+		},
+
 
 		url: '/api/books',
 	});

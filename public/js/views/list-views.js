@@ -47,10 +47,12 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 			goVariantListView: '#goVariantList',
 			genreContainer: '#filter-atributes-container',
 			createBook: '#createBook',
+			genreSpan: '.filter-genre',
 		},
 		events: {
 			'click @ui.createBook' : 'goCreateBook',
 			'click @ui.goVariantListView' : 'goVariantListView',
+			'click @ui.genreSpan' : 'setFilterAttribute',
 		},
 
 		onShow: function(){
@@ -79,6 +81,11 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 			}
 		},
 
+		setFilterAttribute: function(e){
+			var attrFilter = $(e.target).html();
+			myLibrarryApp.request('filterState').set('filter', attrFilter)
+		},
+
 		showFilter: function(){
 			var self = this;
 			var pluckOBJ = _.pluck(self.collection.toJSON(), 'genre');
@@ -95,8 +102,32 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 		className: 'table table-bordered',
 		template: '#list-region-template',
 
+		initialize: function(){
+			this.listenTo(MyLibrarryApp.request('filterState'), 'change:filter', this.render, this);
+		},
+
 		childView: listViews.BookItemView,
 		emptyView: listViews.NoChildView,
+
+		ui: {
+			goSort : '.go-sort'
+		},
+		events: {
+			'click @ui.goSort' : "sortOperation",
+		},
+
+		sortOperation: function(e){
+			var sortAttribute = $(e.target).html().toLowerCase()
+			this.collection.goSort(sortAttribute);
+		},
+
+		addChild: function(childModel){
+			var newFilter = MyLibrarryApp.request('filterState').get('filter');
+			if(childModel.accordance(newFilter)){
+				// стандартный метод прорисовки моделей
+				Backbone.Marionette.CompositeView.prototype.addChild.apply(this, arguments);
+			}
+		},
 	});
 
 	listViews.mainLayoutView = Backbone.Marionette.LayoutView.extend({
