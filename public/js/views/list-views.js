@@ -7,6 +7,26 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 		tagName: 'tr',
 		className: 'book-tr',
 		template: '#book-template',
+
+		ui:{
+			editBook: '#edit',
+			deleteBook: '#delete'
+		},
+		events: {
+			'click @ui.editBook' : 'goEdit',
+			'click @ui.deleteBook' : 'goDelete',
+			'dblclick' : 'goDetail',			
+		},
+
+		goEdit: function(){
+			Backbone.history.navigate('book/'+this.model.get('id')+'/edit', {trigger:true,replace: true});
+		},
+		goDelete: function(){
+			this.model.destroy();
+		},
+		goDetail: function(){
+			Backbone.history.navigate('book/'+this.model.get('id')+'/detail', {trigger:true,replace: true});
+		}
 	});
 
 	listViews.NoChildView = Backbone.Marionette.ItemView.extend({
@@ -25,11 +45,19 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 		template: '#control-list-region-template',
 		ui: {
 			goVariantListView: '#goVariantList',
-			genreContainer: '#filter-atributes-container'
+			genreContainer: '#filter-atributes-container',
+			createBook: '#createBook',
+		},
+		events: {
+			'click @ui.createBook' : 'goCreateBook',
 		},
 
 		onShow: function(){
 			this.showFilter();
+		},
+
+		goCreateBook: function(){
+			Backbone.history.navigate('book/create', {trigger: true, replace: true});
 		},
 
 		showFilter: function(){
