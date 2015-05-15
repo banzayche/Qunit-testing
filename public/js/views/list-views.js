@@ -50,14 +50,33 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 		},
 		events: {
 			'click @ui.createBook' : 'goCreateBook',
+			'click @ui.goVariantListView' : 'goVariantListView',
 		},
 
 		onShow: function(){
 			this.showFilter();
+			this.togleIconVariant();
 		},
 
 		goCreateBook: function(){
 			Backbone.history.navigate('book/create', {trigger: true, replace: true});
+		},
+		goVariantListView: function(){
+			if(MyLibrarryApp.request('filterState').get('list_type') === 'tile'){
+				MyLibrarryApp.request('filterState').set('list_type', 'table');
+			} else{
+				MyLibrarryApp.request('filterState').set('list_type', 'tile');
+			}
+			this.togleIconVariant();
+		},
+		togleIconVariant: function(){
+			if(MyLibrarryApp.request('filterState').get('list_type') === 'tile'){
+				this.ui.goVariantListView.removeClass('glyphicon-th');
+				this.ui.goVariantListView.addClass('glyphicon-th-list');
+			} else{
+				this.ui.goVariantListView.removeClass('glyphicon-th-list');
+				this.ui.goVariantListView.addClass('glyphicon-th');
+			}
 		},
 
 		showFilter: function(){
@@ -88,6 +107,9 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 			listRegion: '#list-region',
 			controlRegion: '#control-region',
 		},
+		initialize: function(){
+			this.listenTo(MyLibrarryApp.request('filterState'), 'change:list_type', this.choiceVariant, this);
+		},
 
 		onShow: function(){
 			this.choiceVariant();
@@ -99,7 +121,7 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 
 		choiceVariant: function(){
 			if(MyLibrarryApp.request('filterState').get('list_type') === 'tile'){
-				console.log('show tile');
+				this.tileShow();
 			} else{
 				this.tableShow();
 			}
@@ -110,6 +132,13 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 				collection: this.collection,
 			});
 			this.getRegion('listRegion').show(tableListBooks);
+		},
+
+		tileShow: function(){
+			var tileListBooks = new MyLibrarryApp.TileListViews.BookListView({
+				collection: this.collection,
+			});
+			this.getRegion('listRegion').show(tileListBooks);
 		}
 	});
 
