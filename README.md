@@ -1,4 +1,4 @@
-Example of app on Marionette.js
+Example of app vs Marionette.js
 ---------------------------------
 
 First of all you have to install such programs: git bash, NodeJS, NPM, Bower.
