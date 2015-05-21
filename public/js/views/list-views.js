@@ -21,13 +21,13 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 		},
 
 		goEdit: function(){
-			Backbone.history.navigate('book/'+this.model.get('id')+'/edit', {trigger:true,replace: true});
+			Backbone.history.navigate('book/'+this.model.get('id')+'/edit', {trigger:true});
 		},
 		goDelete: function(){
 			this.model.destroy();
 		},
 		goDetail: function(){
-			Backbone.history.navigate('book/'+this.model.get('id')+'/detail', {trigger:true,replace: true});
+			Backbone.history.navigate('book/'+this.model.get('id')+'/detail', {trigger:true});
 		}
 	});
 
@@ -62,7 +62,7 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 		},
 
 		goCreateBook: function(){
-			Backbone.history.navigate('book/create', {trigger: true, replace: true});
+			Backbone.history.navigate('book/create', {trigger: true});
 		},
 		goVariantListView: function(){
 			if(MyLibrarryApp.request('filterState').get('list_type') === 'tile'){

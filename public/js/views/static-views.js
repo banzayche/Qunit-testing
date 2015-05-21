@@ -51,7 +51,7 @@ var staticViews = myLibrarryApp.module('staticViews', function(staticViews, MyLi
 		},
 
 		goCancel: function(){
-			Backbone.history.navigate('home', {trigger:true,replace: true});
+			Backbone.history.navigate('home', {trigger:true});
 		}
 	});
 
@@ -76,7 +76,7 @@ var staticViews = myLibrarryApp.module('staticViews', function(staticViews, MyLi
 		},
 
 		goCancel: function(){
-			Backbone.history.navigate('home', {trigger:true,replace: true});
+			Backbone.history.navigate('home', {trigger:true});
 		},
 		goSave: function(){
 			var title = this.ui.title.val().trim();
@@ -97,10 +97,7 @@ var staticViews = myLibrarryApp.module('staticViews', function(staticViews, MyLi
 						genre: genre,
 						description: description,
 					});
-					Backbone.history.navigate('home', {
-						trigger:true, 
-						replace: true 
-					});
+					Backbone.history.navigate('home', {trigger:true});
 
 				// если модель уже существует, мы смотрим ее id и затем, вызываем соответствующую модель в главной колекции
 				// и только потом - сохраняем. Это предоставит возможность представлениям поддерживать правдивое отображение коллекции, 
@@ -114,10 +111,7 @@ var staticViews = myLibrarryApp.module('staticViews', function(staticViews, MyLi
 						genre: genre,
 						description: description,
 					}).done(function(){
-						Backbone.history.navigate('home', {
-							trigger: true, 
-							replace: true 
-						});
+						Backbone.history.navigate('home', {trigger: true});
 					});
 				}
 			} else{

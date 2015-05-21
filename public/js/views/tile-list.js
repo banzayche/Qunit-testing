@@ -20,16 +20,10 @@ var TileListViews = myLibrarryApp.module('TileListViews', function(TileListViews
 		},
 
 		goEdit: function(){
-			Backbone.history.navigate('book/'+this.model.get('id')+'/edit', {
-				trigger: true, 
-				replace: true
-			});
+			Backbone.history.navigate('book/'+this.model.get('id')+'/edit', {trigger: true});
 		},
 		goDetail: function(){
-			Backbone.history.navigate('book/'+this.model.get('id')+'/detail', {
-				trigger: true, 
-				replace: true
-			});
+			Backbone.history.navigate('book/'+this.model.get('id')+'/detail', {trigger: true});
 		},
 		goDelete: function(){
 			this.model.destroy();

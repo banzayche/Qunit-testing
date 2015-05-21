@@ -39,7 +39,7 @@ var routerController = myLibrarryApp.module('routerController', function(routerC
 					}
 				},
 				error: function(){
-					Backbone.history.navigate('page-404', {trigger:true, replace: true });
+					Backbone.history.navigate('page-404', {trigger:true});
 				},
 			});
 		},
