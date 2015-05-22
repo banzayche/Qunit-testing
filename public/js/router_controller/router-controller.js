@@ -26,26 +26,22 @@ var routerController = myLibrarryApp.module('routerController', function(routerC
 			this.control404_part2(id,'detail')
 		},
 
-		control404_part2: function(id, direction, testingAttribute){
-			if(!testingAttribute){
-				var activeModel = new MyLibrarryApp.modelCollection.Book({ id: id });
-				var there = this;
-				activeModel.fetch({
-					success: function(){
-						if(direction === 'edit'){
-							there.showEditBook(id, activeModel);
-						} else {
-							there.showDetailBook(id, activeModel);
-						}
-					},
-					error: function(){
-						testingRouter.set('value', 'error');
-						Backbone.history.navigate('page-404', {trigger:true});
-					},
-				});
-			} else{
-				return id+'-'+direction;
-			}
+		control404_part2: function(id, direction){
+			var activeModel = new MyLibrarryApp.modelCollection.Book({ id: id });
+			var there = this;
+			activeModel.fetch({
+				success: function(){
+					if(direction === 'edit'){
+						there.showEditBook(id, activeModel);
+					} else {
+						there.showDetailBook(id, activeModel);
+					}
+				},
+				error: function(){
+					testingRouter.set('value', 'error');
+					Backbone.history.navigate('page-404', {trigger:true});
+				},
+			});
 		},
 
 		RouterProcessing: function(route, testingAttribute){

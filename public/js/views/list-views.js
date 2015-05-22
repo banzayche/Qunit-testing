@@ -92,15 +92,18 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 			var pluckOBJ = _.pluck(self.collection.toJSON(), 'genre');
 			var filter = _.uniq(pluckOBJ);
 			var testingActionVariable = 'test beginning:';
+			var TestAnswerArray = [0];
 			for(var i = 0; i<filter.length; i++){
 				if(!testingAction){
 					self.ui.genreContainer
 					.append('<li><a class="filter-genre">'+filter[i]+'</a></li>');
 				} else {
 					testingActionVariable = testingActionVariable + ' ' + filter[i];
+					TestAnswerArray[0] = i;				
 				}
 			}
-			return testingActionVariable;
+			TestAnswerArray.push(testingActionVariable);
+			return TestAnswerArray;
 		},
 	});
 	

@@ -108,7 +108,7 @@ var staticViews = myLibrarryApp.module('staticViews', function(staticViews, MyLi
 				// без дополнительного обращения к серверу
 				} else{
 					if(!testingAttr){
-						var id = this.model.get('id');			
+						var id = this.model.get('id');		
 						collection.get(id).save({
 							title: title,
 							author: author,
