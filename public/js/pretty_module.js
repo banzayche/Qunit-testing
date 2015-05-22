@@ -51,12 +51,12 @@ $(function(){
 			model: modelsaveMethodStaticView2
 		});
 
-		assert.ok( saveMethodStaticView.goSave2(collectionForEditViewTest,1,2,2,2,2,true) === 'new', "return 'new' - 'new' model" );
-		assert.ok( saveMethodStaticView2.goSave2(collectionForEditViewTest,1,2,2,2,2,true) === 'old', "return 'old' - 'old' model" );
-		assert.ok( saveMethodStaticView.goSave2(collectionForEditViewTest,undefined,2,2,2,2,true) === 'empty', "return 'empty' - without 'title'" );
-		assert.ok( saveMethodStaticView.goSave2(collectionForEditViewTest,1,undefined,2,2,2,true) === 'empty', "return 'empty'  - without 'author'" );
-		assert.ok( saveMethodStaticView.goSave2(collectionForEditViewTest,1,2,undefined,2,2,true) === 'empty', "return 'empty'  - without 'genre'" );
-		assert.ok( saveMethodStaticView.goSave2(collectionForEditViewTest,1,2,2,undefined,2,true) === 'empty', "return 'empty'  - without 'year'" );
+		assert.ok( saveMethodStaticView.goSave2(collectionForEditViewTest,1,2,2,2,2,true) === 'new', "Test for model without 'id' (new). return 'new' - 'new' model" );
+		assert.ok( saveMethodStaticView2.goSave2(collectionForEditViewTest,1,2,2,2,2,true) === 'old', "Test for model with 'id' (old). return 'old' - 'old' model" );
+		assert.ok( saveMethodStaticView.goSave2(collectionForEditViewTest,undefined,2,2,2,2,true) === 'empty', "Send attribute without 'empty' - return 'empty'" );
+		assert.ok( saveMethodStaticView.goSave2(collectionForEditViewTest,1,undefined,2,2,2,true) === 'empty', "Send attribute without 'empty' - return 'empty'" );
+		assert.ok( saveMethodStaticView.goSave2(collectionForEditViewTest,1,2,undefined,2,2,true) === 'empty', "Send attribute without 'genre' - return 'empty'" );
+		assert.ok( saveMethodStaticView.goSave2(collectionForEditViewTest,1,2,2,undefined,2,true) === 'empty', "Send attribute without 'year' - return 'empty'" );
 	});
 
 
@@ -90,8 +90,8 @@ $(function(){
 			collection: collectionForEditViewTest
 		});
 
-		assert.ok( newTestControlForList.showFilter(true)[0]+1 === 2, "Answer from function is true - 2 genre ");
-		assert.ok( newTestControlForList.showFilter(true)[1] === 'test beginning: genre-1 genre-2', "Answer from function is true - 'test beginning: genre-1 genre-2'" );
+		assert.ok( newTestControlForList.showFilter(true)[0]+1 === 2, "We send collection of models. This models have two different types of genre. Answer from function is true - 2 genre ");
+		assert.ok( newTestControlForList.showFilter(true)[1] === 'test beginning: genre-1 genre-2', "We send collection of models. This models have two different types of genre. Answer from function is true - 'test beginning: genre-1 genre-2'" );
 	});
 
 
@@ -104,8 +104,8 @@ $(function(){
 			controller: generalControllerTest,
 		});
 
-		assert.ok( generalControllerTest.RouterProcessing('home', true) === 'header-footer+main', "Answer from function is true - 'header-footer+main'" );
-		assert.ok( generalControllerTest.RouterProcessing(0, true) === 'header-footer+404', "Answer from function is true - 'header-footer+404'" );
-		assert.ok( generalControllerTest.RouterProcessing('', true) === 'header-footer+404', "Answer from function is true - 'header-footer+404'" );
+		assert.ok( generalControllerTest.RouterProcessing('home', true) === 'header-footer+main', "Imitation of 'home' route. Answer from function is true - 'header-footer+main'" );
+		assert.ok( generalControllerTest.RouterProcessing(null, true) === 'header-footer+main', "Imitation of null route. When we have not any route. Answer from function is true - 'header-footer+main'" );
+		assert.ok( generalControllerTest.RouterProcessing('testAnyBla-lbla', true) === 'header-footer+404', "Imitation of nonexistent route. Answer from function is true - 'header-footer+404'" );
 	});
 });
