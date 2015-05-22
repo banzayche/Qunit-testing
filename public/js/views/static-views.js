@@ -72,50 +72,60 @@ var staticViews = myLibrarryApp.module('staticViews', function(staticViews, MyLi
 		},
 		events: {
 			'click @ui.cancel' : 'goCancel',
-			'click @ui.save' : 'goSave',
+			'click @ui.save' : 'goSave1',
 		},
 
 		goCancel: function(){
 			Backbone.history.navigate('home', {trigger:true});
 		},
-		goSave: function(){
+		goSave1: function(){
 			var title = this.ui.title.val().trim();
 			var author = this.ui.author.val().trim();
 			var year = this.ui.year.val().trim();
 			var genre = this.ui.genre.val().trim();
 			var description = this.ui.description.val().trim();
-
+			this.goSave2(MyLibrarryApp.GeneralCollection, title, author, year, genre, description, false);
+		},
+		goSave2: function(collection, title, author, year, genre, description, testingAttr){
 			// при сохранении, проверяем, чтобы все основные поля были заполнены. И тогда реализуем "сохранение"
 			// иначе, показываем сигнал о неверном вводе данных
 			if(title && author && year && genre){
 				// если модель новая - она не будет иметь id. Поэтому, нам необходимо создать новую модель в колекции
 				if(this.model.isNew()){
-					MyLibrarryApp.GeneralCollection.create({
-						title: title,
-						author: author,
-						year: year,
-						genre: genre,
-						description: description,
-					});
-					Backbone.history.navigate('home', {trigger:true});
-
+					if(!testingAttr){
+						collection.create({
+							title: title,
+							author: author,
+							year: year,
+							genre: genre,
+							description: description,
+						});
+						Backbone.history.navigate('home', {trigger:true});
+					}
+					return 'new';
 				// если модель уже существует, мы смотрим ее id и затем, вызываем соответствующую модель в главной колекции
 				// и только потом - сохраняем. Это предоставит возможность представлениям поддерживать правдивое отображение коллекции, 
 				// без дополнительного обращения к серверу
 				} else{
-					var id = this.model.get('id');			
-					MyLibrarryApp.GeneralCollection.get(id).save({
-						title: title,
-						author: author,
-						year: year,
-						genre: genre,
-						description: description,
-					}).done(function(){
-						Backbone.history.navigate('home', {trigger: true});
-					});
+					if(!testingAttr){
+						var id = this.model.get('id');			
+						collection.get(id).save({
+							title: title,
+							author: author,
+							year: year,
+							genre: genre,
+							description: description,
+						}).done(function(){
+							Backbone.history.navigate('home', {trigger: true});
+						});
+					}
+					return 'old';
 				}
 			} else{
-				this.ui.error.show();
+				if(!testingAttr){
+					this.ui.error.show();
+				}
+				return 'empty';
 			}
 		},
 	});

@@ -18,8 +18,7 @@ var routerController = myLibrarryApp.module('routerController', function(routerC
 
 	// Controller - это предоставляемый Marionette.js обьект-контроллер
 	// в нем должны храниться методы для указанных в appRoutes роутов
-	routerController.GeneralController = Backbone.Marionette.Controller.extend({
-		
+	routerController.GeneralController = Backbone.Marionette.Controller.extend({		
 		control404_edit: function(id){
 			this.control404_part2(id,'edit')
 		},
@@ -27,38 +26,51 @@ var routerController = myLibrarryApp.module('routerController', function(routerC
 			this.control404_part2(id,'detail')
 		},
 
-		control404_part2: function(id, direction){
-			var activeModel = new MyLibrarryApp.modelCollection.Book({ id: id });
-			var there = this;
-			activeModel.fetch({
-				success: function(){
-					if(direction === 'edit'){
-						there.showEditBook(id, activeModel);
-					} else {
-						there.showDetailBook(id, activeModel);
-					}
-				},
-				error: function(){
-					Backbone.history.navigate('page-404', {trigger:true});
-				},
-			});
+		control404_part2: function(id, direction, testingAttribute){
+			if(!testingAttribute){
+				var activeModel = new MyLibrarryApp.modelCollection.Book({ id: id });
+				var there = this;
+				activeModel.fetch({
+					success: function(){
+						if(direction === 'edit'){
+							there.showEditBook(id, activeModel);
+						} else {
+							there.showDetailBook(id, activeModel);
+						}
+					},
+					error: function(){
+						testingRouter.set('value', 'error');
+						Backbone.history.navigate('page-404', {trigger:true});
+					},
+				});
+			} else{
+				return id+'-'+direction;
+			}
 		},
 
-		RouterProcessing: function(route){
+		RouterProcessing: function(route, testingAttribute){
 			switch (route) {
 				case null:
 				case 'home':
-					var there = this;
-					there.showMain();
-					there.showFooter_Header();
+					if(!testingAttribute){
+						var there = this;
+						there.showMain();
+						there.showFooter_Header();
+					} else{
+						return 'header-footer+main'
+					}
 					break;
 				default:
-					Backbone.history.navigate('page-404', {
-						trigger:false, 
-						replace: false
-					});
-					this.show404();
-					this.showFooter_Header();
+					if(!testingAttribute){
+						Backbone.history.navigate('page-404', {
+							trigger:false, 
+							replace: false
+						});
+						this.show404();
+						this.showFooter_Header();
+					} else{
+						return 'header-footer+404'
+					}
 					break;
 			}
 		},

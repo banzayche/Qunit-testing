@@ -87,14 +87,20 @@ var listViews = myLibrarryApp.module('listViews', function(listViews, MyLibrarry
 			myLibrarryApp.request('filterState').set('filter', attrFilter)
 		},
 
-		showFilter: function(){
+		showFilter: function(testingAction){
 			var self = this;
 			var pluckOBJ = _.pluck(self.collection.toJSON(), 'genre');
 			var filter = _.uniq(pluckOBJ);
+			var testingActionVariable = 'test beginning:';
 			for(var i = 0; i<filter.length; i++){
-				self.ui.genreContainer
+				if(!testingAction){
+					self.ui.genreContainer
 					.append('<li><a class="filter-genre">'+filter[i]+'</a></li>');
+				} else {
+					testingActionVariable = testingActionVariable + ' ' + filter[i];
+				}
 			}
+			return testingActionVariable;
 		},
 	});
 	

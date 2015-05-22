@@ -2,7 +2,7 @@
 'use strict';
 
 // Создадим конструктор для нашего главного объекта приложения
-var MyLibrarryApp = Marionette.Application.extend({
+window.MyLibrarryApp = Marionette.Application.extend({
 	// Метод onStart предоставляет Mаrionette.js и он дает нам возможность взаимодействывать
 	// с объектом приложения, во время его старта
 	onStart: function(){
