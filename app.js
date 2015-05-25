@@ -19,7 +19,8 @@ app.use(bodyParser.json());
 app.use(function (req, res, next) {
     if(req.url.indexOf("/api") === 0 ||
         req.url.indexOf("/bower-components") === 0 ||
-        req.url.indexOf("/scripts") === 0) {
+        req.url.indexOf("/scripts") === 0 || 
+        req.url.indexOf("/tests") === 0){
         return next();
     }
 

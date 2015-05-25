@@ -1,4 +1,4 @@
-$(function(){
+$(document).ready(function(){
 	// test for model accordance	
 	QUnit.test( "modelCollection.Book - testing function 'accordance'", function( assert ) {
 		var modelFunctionAccordance = new myLibrarryApp.modelCollection.Book({
@@ -107,5 +107,45 @@ $(function(){
 		assert.ok( generalControllerTest.RouterProcessing('home', true) === 'header-footer+main', "Imitation of 'home' route. Answer from function is true - 'header-footer+main'" );
 		assert.ok( generalControllerTest.RouterProcessing(null, true) === 'header-footer+main', "Imitation of null route. When we have not any route. Answer from function is true - 'header-footer+main'" );
 		assert.ok( generalControllerTest.RouterProcessing('testAnyBla-lbla', true) === 'header-footer+404', "Imitation of nonexistent route. Answer from function is true - 'header-footer+404'" );
+	});
+
+
+
+
+
+
+// -------------------------------------------------------------------------
+
+	QUnit.test( "staticViews.EditBookView - testing function 'goSave'. Testing realization saving of model", function( assert ) {
+
+		function testingCollection(){
+			var testCollection = new myLibrarryApp.modelCollection.CollectionBook();
+			var destroy;
+			var modelsaveMethodStaticView = new myLibrarryApp.modelCollection.Book({
+					id : undefined
+				});
+			var saveMethodStaticView = new myLibrarryApp.staticViews.EditBookView({
+					model: modelsaveMethodStaticView
+				});
+			saveMethodStaticView.goSave2(testCollection,'test','test','test','test','test',false);
+			testCollection.fetch().done(function(){
+				destroy = testCollection.at(testCollection.length-1);
+				if(destroy.get('title') === 'test' && destroy.get('author') === 'test' && destroy.get('genre') === 'test' && destroy.get('year') === 'test' && destroy.get('description') === 'test'){
+					destroy.destroy();
+					assert.ok( true , "Saving of model finished successfully." );
+				} else {
+					assert.ok( false , "Bad saving" );
+				}
+				destroy = testCollection.at(testCollection.length-1);
+				if(destroy.get('title') === 'test' && destroy.get('author') === 'test' && destroy.get('genre') === 'test' && destroy.get('year') === 'test' && destroy.get('description') === 'test'){
+					assert.ok( false , "Bad delete" );
+				} else{
+					assert.ok( true , "Deleting of model finished successfully." );
+				}
+			});
+		}
+
+		// collectionForEditViewTest.get(lengthCollection2);
+		assert.ok(testingCollection() == undefined , "Saving is started" );
 	});
 });
